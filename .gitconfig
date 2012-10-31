@@ -1,0 +1,21 @@
+[user]
+	name = Diego Mónaco
+	email = dfmonaco@gmail.com
+[color]
+	status = auto
+	branch = auto
+	diff   = auto
+[gui]
+	recentrepo = /home/diego/prueba
+[merge]
+	tool = meld
+[diff]
+	tool = meld
+
+[apply]
+	 whitespace = nowarn
+[alias]
+	lg = log --graph --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+
+
+	lg1 = log --pretty=oneline --abbrev-commit --decorate --date=relative
