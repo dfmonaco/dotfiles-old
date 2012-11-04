@@ -404,7 +404,7 @@ let g:turbux_command_rspec  = 'rspec --drb'
 
 " vimux conf
 let g:VimuxOrientation = "h"
-let g:VimuxHeight = "30"
+let g:VimuxHeight = "40"
 
 " Run the current file with rspec
 map <Leader>rb :call VimuxRunCommand("clear; rspec " . bufname("%"))<CR>
