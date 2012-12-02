@@ -144,6 +144,7 @@ alias rs='rails server thin'
 alias rg='rails generate'
 alias rc='rails console'
 alias rd='rails dbconsole'
+alias krs='kill $(lsof -i :3000 -t)'
 
 alias oel='rails server thin -e production --port=3001'
 alias oel_c='rails console production'
@@ -229,3 +230,6 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"

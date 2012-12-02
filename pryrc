@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'interactive_editor'
+
 alias q exit
 
 railsrc_path = File.expand_path('~/.railsrc')
