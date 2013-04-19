@@ -5,6 +5,7 @@
 	status = auto
 	branch = auto
 	diff   = auto
+	ui = true
 [gui]
 	recentrepo = /home/diego/prueba
 [merge]
@@ -19,3 +20,5 @@
 
 
 	lg1 = log --pretty=oneline --abbrev-commit --decorate --date=relative
+[core]
+	excludesfile = /home/diego/.gitignore_global

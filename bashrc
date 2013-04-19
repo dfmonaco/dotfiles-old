@@ -124,12 +124,11 @@ export PS1='\[\033[1;33m\]\w\[\033[0m\]$(parse_git_branch)$ '
 PATH=$PATH:~/.scripts
 
 # ALIASES
-# tmux dev
-alias tdev='tmux -f app.conf attach'
+# rspec
+alias t='rspec --drb'
 
 # navigation
-alias go='cd /home/diego/Development/obrasenlinea'
-alias goo='cd /home/diego/Development/oel'
+alias go='cd /home/diego/stuff/code/oel'
 
 # bundler
 alias be='bundle exec'
@@ -157,9 +156,6 @@ alias ref='rails s thin --environment=reflexive --port=3002'
 # rake
 alias rk='bundle exec rake'
 
-# autotest
-alias at='bundle exec autotest'
-
 # git
 alias gs='git status'
 alias ga='git add .'
@@ -169,9 +165,7 @@ alias gc='git commit -m'
 alias gi='git add -i'
 alias gd='git diff'
 alias gds='git diff --staged'
-
-# railroad
-alias schema='railroad -M | dot -Tpng > modelos.png'
+alias gco='git checkout'
 
 # rake tasks
 # alias dbr='rake db:migrate:reset && rake db:seed && annotate && rake db:test:prepare'
@@ -189,8 +183,8 @@ alias prod2dev='dump && rake db:drop && rake db:create && psql obrasenlinea_deve
 alias hkpush='heroku db:push postgres://diego:diego@127.0.0.1/obrasenlinea_production?encoding=utf8'
 alias hkpull='heroku db:pull postgres://diego:diego@127.0.0.1/obrasenlinea_production?encoding=utf8'
 alias hkpull_dev='heroku db:pull postgres://diego:diego@127.0.0.1/obrasenlinea_development?encoding=utf8'
-alias hkbackup='heroku pgbackups:capture --expire'
-alias hkdl='curl -o oel.dump `heroku pgbackups:url`'
+alias hkbackup='heroku pgbackups:capture --expire --app obrasenlinea'
+alias hkdl='curl -o oel.dump `heroku pgbackups:url --app obrasenlinea`'
 alias hk2dev='pg_restore -v -c -x -O  -d obrasenlinea_development oel.dump'
 
 # MISC
@@ -206,14 +200,11 @@ export ALTERNATE_EDITOR='vim'
 # BACKUP
 alias bkp='rsync -va --del --progress --log-file=/home/diego/.backup.log --exclude-from=/home/diego/.rsync/exclude /home/diego /media/backup/'
 
-alias bkp2='rsync -va --del --modify-window=1 --progress --log-file=/home/diego/.backup.log --exclude-from=/home/diego/.rsync/exclude /home/diego /media/toshiba_bkp/'
+alias bkp2='rsync -va --del --modify-window=1 --progress --log-file=/home/diego/.backup.log --exclude-from=/home/diego/.rsync/exclude /home/diego /media/diego/toshiba_bkp/'
 
 # Alert
 alias alert_helper='history|tail -n1|sed -e "s/^\s*[0-9]\+\s*//" -e "s/;\s*alert$//"'
 alias alert='notify-send -i /usr/share/icons/gnome/32×32/apps/gnome-terminal.png "[$?] $(alert_helper)"'
-
-# screeninator
-[[ -s "$HOME/.screeninator/scripts/screeninator" ]] && source "$HOME/.screeninator/scripts/screeninator"
 
 # tmux 256 colors
 [ -z "$TMUX" ] && export TERM=xterm-256color

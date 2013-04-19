@@ -1,0 +1,7 @@
+.rvmrc
+.gemset
+/bin/*
+.tmuxrc
+*sublime-project
+*sublime-workspace
+*.dump
