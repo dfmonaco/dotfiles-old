@@ -1,10 +1,29 @@
 set nocompatible               " be iMproved
+filetype off                   " required by Vundle
 
 "  ---------------------------------------------------------------------------
 "  Plugins
 "  ---------------------------------------------------------------------------
 
-silent! call pathogen#runtime_append_all_bundles()
+" Set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+Plugin  'Lokaltog/vim-powerline'
+
+" Syntax definitions
+
+" Color schemes
+Plugin 'altercation/vim-colors-solarized'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+
+" indent rules by filetype
+filetype plugin indent on    " required
 
 "  ---------------------------------------------------------------------------
 "  General
@@ -12,9 +31,6 @@ silent! call pathogen#runtime_append_all_bundles()
 
 let mapleader = ","
 let g:mapleader = ","
-
-" indent rules by filetype 
-filetype plugin indent on
 
 " modeline support may execute any of a number of frighteningly arbitrary Vim commands embedded in the file.
 set modelines=0
