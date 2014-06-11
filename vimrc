@@ -1,9 +1,10 @@
 set nocompatible               " be iMproved
-filetype off                   " required by Vundle
 
 "  ---------------------------------------------------------------------------
 "  Plugins
 "  ---------------------------------------------------------------------------
+
+filetype off                   " required by Vundle
 
 " Set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -12,9 +13,16 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-Plugin  'Lokaltog/vim-powerline'
+Plugin 'bling/vim-airline'
+Plugin 'tpope/vim-commentary'
+Plugin 'Shougo/unite.vim'
+Plugin 'Shougo/vimproc.vim'
+Plugin 'benmills/vimux'
+Plugin 'jgdavey/vim-turbux'
+Plugin 'ervandew/supertab'
 
 " Syntax definitions
+Plugin 'sheerun/vim-polyglot'
 
 " Color schemes
 Plugin 'altercation/vim-colors-solarized'
@@ -38,7 +46,7 @@ set modelines=0
 " Sets how many lines of history VIM has to remember
 set history=1000
 
-" don't do any backup or swap (for recovery purposes) files 
+" don't do any backup or swap (for recovery purposes) files
 set nobackup
 set nowritebackup
 set noswapfile
@@ -95,7 +103,7 @@ set cursorline
 " Improves smoothness of redrawing
 set ttyfast
 
-" Show the line and column number of the cursor position, separated by a comma. 
+" Show the line and column number of the cursor position, separated by a comma.
 set ruler
 
 " indent:	allow backspacing over autoindent
@@ -114,14 +122,14 @@ set relativenumber
 
 " colors
 colorscheme solarized
-set background=dark 
+set background=dark
 set t_Co=256
 
 "  ---------------------------------------------------------------------------
 "  Text Formatting
 "  ---------------------------------------------------------------------------
 
-" Number of spaces that a <Tab> in the file counts for. 
+" Number of spaces that a <Tab> in the file counts for.
 set tabstop=2
 
 " Number of spaces to use for each step of (auto)indent.
@@ -130,7 +138,7 @@ set shiftwidth=2
 " It feels like	<Tab>s are being inserted, while in fact a mix of spaces and <Tab>s is used.
 set softtabstop=2
 
-" In Insert mode: Use the appropriate number of spaces to insert a <Tab>. 
+" In Insert mode: Use the appropriate number of spaces to insert a <Tab>.
 set expandtab
 
 " lines will not wrap	and only part of long lines will be displayed.
@@ -168,7 +176,8 @@ set showmatch
 "  Status Line
 "  ---------------------------------------------------------------------------
 
-set statusline=%F%m%r%h%w[%L]%y[%p%%][%04v][%{fugitive#statusline()}]
+" set statusline=%F%m%r%h%w[%L]%y[%p%%][%04v][%{fugitive#statusline()}]
+" set statusline=%F%m%r%h%w[%L]%y[%p%%][%04v]
 
 "  ---------------------------------------------------------------------------
 "  Mappings
@@ -185,7 +194,7 @@ nnoremap / /\v
 vnoremap / /\v
 
 " turn search highlight off
-nnoremap <leader><space> :noh<cr> 
+nnoremap <leader><space> :noh<cr>
 
 " search (forwards)
 nmap <space> /
@@ -248,30 +257,22 @@ nmap <leader><Esc> :q!<CR>
 map <C-v> "+gP<CR>
 vmap <C-c> "+y
 
-" go to 
-map <leader>oel :cd /home/diego/Development/obrasenlinea<CR>
-map <leader>oel2 :cd /home/diego/Development/oel<CR>
-
 " quickfix
 map N :cn<CR>
 map P :cp<CR>
-
-"  Tabular
-
-" align with the first comma
-vmap <leader>a, :Tabular /^[^,]*\zs,/<CR>
-" align symbols
-vmap <leader>a: :Tabular /:/l1c0<CR>
 
 "  ---------------------------------------------------------------------------
 "  Function Keys
 "  ---------------------------------------------------------------------------
 
+" F2 - to easily toggle between paste and nopaste.
+set pastetoggle=<F2>
+
 " F3 - YankRing
 nnoremap <silent> <F3> :YRShow<cr>
 inoremap <silent> <F3> <ESC>:YRShow<cr>
 
-" F4 - search and replace 
+" F4 - search and replace
 
 " To complete it, you only have to enter -> myoldpattern/mynewpattern<CR>
 map <F4> :%s//c<Left><Left>
@@ -292,28 +293,53 @@ autocmd FileType ruby nmap <F5> :!ruby %<cr>
 map   <silent> <F6> mmgg=G`m^zz
 imap  <silent> <F6> <Esc> mmgg=G`m^zz
 
+
 "  ---------------------------------------------------------------------------
 "  Plugins
 "  ---------------------------------------------------------------------------
 
+" Unite
+
+" A simple mapping that will configure <leader>-f to browse for a file in the
+" current working directory:
+nnoremap <leader>f :<C-u>Unite -start-insert file<CR>
+
+" The popular recursive file search, starting insert automatically and using
+" fuzzy file matching:
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+noremap <leader>r :<C-u>Unite -start-insert file_rec/async:!<CR>
+
+" Search through yank history. First, this must be enabled to track yank
+" history, then the mapping set.
+let g:unite_source_history_yank_enable = 1
+nnoremap <leader>y :<C-u>Unite history/yank<CR>
+
+" To see buffers, recent files then bookmarks:
+nnoremap <silent> <leader>b :<C-u>Unite buffer bookmark<CR>
+
+" By default, ag ignores files which are in your project's .gitignore (or .hgignore),
+" but that behavior has been disabled in Unite. Luckily, we can reenable it pretty
+" easily by changing the command Unite uses to search files for file_rec/async by doing something like:
+let g:unite_source_rec_async_command= 'ag --nocolor --nogroup --hidden -g ""'
+
 " Powerline
-let g:Powerline_symbols = 'fancy'
+" let g:Powerline_symbols = 'fancy'
 
 " vim-slime
-let g:slime_target = "tmux"
+" let g:slime_target = "tmux"
 
 " ctrlp
-map <leader>f :CtrlP<cr>
-map <leader>b :CtrlPBuffer<cr>
+" map <leader>f :CtrlP<cr>
+" map <leader>b :CtrlPBuffer<cr>
 
 " ignore following directories and files
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|log$\|tmp$\|bin$',
-  \ 'file': '\.exe$\|\.so$\|\.dll$',
-  \ }
+" let g:ctrlp_custom_ignore = {
+"       \ 'dir':  '\.git$\|log$\|tmp$\|bin$',
+"       \ 'file': '\.exe$\|\.so$\|\.dll$',
+"       \ }
 
 " ack-grep
-nnoremap <leader>a :Ack 
+nnoremap <leader>a :Ack
 
 " Ack settings: https://github.com/krisleech/vimfiles/wiki/Make-ack-ignore-files
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
@@ -332,7 +358,7 @@ if has("gui_running")
   set guioptions-=R " no scrollbar on the right
   set guioptions-=l " no scrollbar on the left
   set guioptions-=b " no scrollbar on the bottom
-  set guioptions=aiA 
+  set guioptions=aiA
   set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10 " Font family and font size.
   set antialias                     " smooth fonts.
   set encoding=utf-8                " Use UTF-8 everywhere.
@@ -358,6 +384,15 @@ set foldlevel=1         "this is just what i use
 " Automatic fold settings for specific files.
 " autocmd FileType ruby setlocal foldmethod=syntax
 " autocmd FileType css  setlocal foldmethod=indent shiftwidth=2 tabstop=2
+
+" Setting 'foldmethod' to syntax causes two annoying problems:
+" a general slow-down of Vim when inserting/completing text, and
+" folds which go SPROING! every time you insert text which creates a new fold.
+" Don't screw up folds when inserting text that might affect them, until
+" leaving insert mode. Foldmethod is local to the window. Protect against
+" screwing up folding when switching between windows.
+autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
+autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
 
 
 "  ---------------------------------------------------------------------------
@@ -393,7 +428,7 @@ imap <F9> <esc>:NERDTreeToggle<cr>
 "  Auto align cucumber tables with Tabularize
 "  ---------------------------------------------------------------------------
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
- 
+
 function! s:align()
   let p = '^\s*|\s.*\s|\s*$'
   if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
