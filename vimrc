@@ -15,11 +15,19 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'bling/vim-airline'
 Plugin 'tpope/vim-commentary'
-Plugin 'Shougo/unite.vim'
-Plugin 'Shougo/vimproc.vim'
+" Plugin 'Shougo/unite.vim'
+" Plugin 'Shougo/vimproc.vim'
 Plugin 'benmills/vimux'
 Plugin 'jgdavey/vim-turbux'
 Plugin 'ervandew/supertab'
+Plugin 'kien/ctrlp.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'rking/ag.vim'
+Plugin 't9md/vim-ruby-xmpfilter'
+Plugin 'scrooloose/syntastic'
+Plugin 'chilicuil/vim-sml-coursera'
+
 
 " Syntax definitions
 Plugin 'sheerun/vim-polyglot'
@@ -176,12 +184,18 @@ set showmatch
 "  Status Line
 "  ---------------------------------------------------------------------------
 
-" set statusline=%F%m%r%h%w[%L]%y[%p%%][%04v][%{fugitive#statusline()}]
+set statusline=%F%m%r%h%w[%L]%y[%p%%][%04v][%{fugitive#statusline()}]
 " set statusline=%F%m%r%h%w[%L]%y[%p%%][%04v]
 
 "  ---------------------------------------------------------------------------
 "  Mappings
 "  ---------------------------------------------------------------------------
+
+" Fugitive
+nmap <leader>gs :Gstatus<cr>
+
+" Delete current file
+nnoremap <C-d> :call delete(expand('%'))<CR>
 
 " make tabs and trailing spaces visible when requested:
 nmap <silent> <leader>s :set nolist!<CR>
@@ -249,7 +263,7 @@ map <leader>e :edit %%
 map <leader>v :view %%
 
 " Saving and exit
-nmap <leader>q :wqa!<CR>
+" nmap <leader>q :wqa!<CR>
 nmap <leader>w :w!<CR>
 nmap <leader><Esc> :q!<CR>
 
@@ -289,38 +303,70 @@ vmap <F4> y:execute "%s/".escape(@",'[]/')."//c"<Left><Left><Left>
 " Run current file
 autocmd FileType ruby nmap <F5> :!ruby %<cr>
 
-" F6 - indent file and return cursor and center cursor
-map   <silent> <F6> mmgg=G`m^zz
-imap  <silent> <F6> <Esc> mmgg=G`m^zz
+" F10 - indent file and return cursor and center cursor
+map   <silent> <F10> mmgg=G`m^zz
+imap  <silent> <F10> <Esc> mmgg=G`m^zz
 
 
 "  ---------------------------------------------------------------------------
 "  Plugins
 "  ---------------------------------------------------------------------------
 
+" xmpfilter
+" autocmd FileType ruby nmap <buffer> <F6> <Plug>(xmpfilter-mark)
+" autocmd FileType ruby xmap <buffer> <F6> <Plug>(xmpfilter-mark)
+" autocmd FileType ruby imap <buffer> <F6> <Plug>(xmpfilter-mark)
+
+" autocmd FileType ruby nmap <buffer> <F7> <Plug>(xmpfilter-run)
+" autocmd FileType ruby xmap <buffer> <F7> <Plug>(xmpfilter-run)
+" autocmd FileType ruby imap <buffer> <F7> <Plug>(xmpfilter-run)
+
+" seeing_is_believing
+let g:xmpfilter_cmd = "seeing_is_believing"
+
+" insert/remove mark
+autocmd FileType ruby nmap <buffer> <F5> <Plug>(seeing_is_believing-mark)
+autocmd FileType ruby xmap <buffer> <F5> <Plug>(seeing_is_believing-mark)
+autocmd FileType ruby imap <buffer> <F5> <Plug>(seeing_is_believing-mark)
+
+" insert result at marks
+autocmd FileType ruby nmap <buffer> <F6> <Plug>(seeing_is_believing-run_-x)
+autocmd FileType ruby xmap <buffer> <F6> <Plug>(seeing_is_believing-run_-x)
+autocmd FileType ruby imap <buffer> <F6> <Plug>(seeing_is_believing-run_-x)
+
+" remove all marks
+autocmd FileType ruby nmap <buffer> <F7> <Plug>(seeing_is_believing-clean)
+autocmd FileType ruby xmap <buffer> <F7> <Plug>(seeing_is_believing-clean)
+autocmd FileType ruby imap <buffer> <F7> <Plug>(seeing_is_believing-clean)
+
+" auto insert marks and results
+autocmd FileType ruby nmap <buffer> <F8> <Plug>(seeing_is_believing-run)
+autocmd FileType ruby xmap <buffer> <F8> <Plug>(seeing_is_believing-run)
+autocmd FileType ruby imap <buffer> <F8> <Plug>(seeing_is_believing-run)
+
 " Unite
 
 " A simple mapping that will configure <leader>-f to browse for a file in the
 " current working directory:
-nnoremap <leader>f :<C-u>Unite -start-insert file<CR>
+" nnoremap <leader>f :<C-u>Unite -start-insert file<CR>
 
 " The popular recursive file search, starting insert automatically and using
 " fuzzy file matching:
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-noremap <leader>r :<C-u>Unite -start-insert file_rec/async:!<CR>
+" call unite#filters#matcher_default#use(['matcher_fuzzy'])
+" noremap <leader>r :<C-u>Unite -start-insert file_rec/async:!<CR>
 
 " Search through yank history. First, this must be enabled to track yank
 " history, then the mapping set.
-let g:unite_source_history_yank_enable = 1
-nnoremap <leader>y :<C-u>Unite history/yank<CR>
+" let g:unite_source_history_yank_enable = 1
+" nnoremap <leader>y :<C-u>Unite history/yank<CR>
 
 " To see buffers, recent files then bookmarks:
-nnoremap <silent> <leader>b :<C-u>Unite buffer bookmark<CR>
+" nnoremap <silent> <leader>b :<C-u>Unite buffer bookmark<CR>
 
 " By default, ag ignores files which are in your project's .gitignore (or .hgignore),
 " but that behavior has been disabled in Unite. Luckily, we can reenable it pretty
 " easily by changing the command Unite uses to search files for file_rec/async by doing something like:
-let g:unite_source_rec_async_command= 'ag --nocolor --nogroup --hidden -g ""'
+" let g:unite_source_rec_async_command= 'ag --nocolor --nogroup --hidden -g ""'
 
 " Powerline
 " let g:Powerline_symbols = 'fancy'
@@ -329,20 +375,23 @@ let g:unite_source_rec_async_command= 'ag --nocolor --nogroup --hidden -g ""'
 " let g:slime_target = "tmux"
 
 " ctrlp
-" map <leader>f :CtrlP<cr>
-" map <leader>b :CtrlPBuffer<cr>
+map <leader>f :CtrlP<cr>
+map <leader>b :CtrlPBuffer<cr>
 
 " ignore following directories and files
-" let g:ctrlp_custom_ignore = {
-"       \ 'dir':  '\.git$\|log$\|tmp$\|bin$',
-"       \ 'file': '\.exe$\|\.so$\|\.dll$',
-"       \ }
+let g:ctrlp_custom_ignore = {
+      \ 'dir':  '\.git$\|log$\|tmp$\|bin$',
+      \ 'file': '\.exe$\|\.so$\|\.dll$',
+      \ }
+
+" ag
+nnoremap <leader>a :Ag
 
 " ack-grep
-nnoremap <leader>a :Ack
+" nnoremap <leader>a :Ack
 
-" Ack settings: https://github.com/krisleech/vimfiles/wiki/Make-ack-ignore-files
-let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+" Ack settings
+" let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 
 "  ---------------------------------------------------------------------------
 "  Ruby/Rails
@@ -369,7 +418,7 @@ endif
 "  Directories
 "  ---------------------------------------------------------------------------
 
-set backupdir=~/tmp,/tmp
+" set backupdir=~/tmp,/tmp
 set undodir=~/.vim/.tmp,~/tmp,~/.tmp,/tmp
 
 "  ---------------------------------------------------------------------------
@@ -458,12 +507,17 @@ endfunction
 
 " turbux conf
 " let g:turbux_command_prefix = 'zeus'
-let g:turbux_command_rspec  = 'rspec --drb'
+" let g:turbux_command_rspec  = 'rspec --drb'
+" let g:turbux_command_rspec  = 'zeus test'
+let g:turbux_command_rspec  = 'bin/rspec'
 " let g:turbux_command_cucumber = 'cucumber --drb'
 
 " vimux conf
 let g:VimuxOrientation = "h"
 let g:VimuxHeight = "40"
+
+" Run the current file with ruby
+map <Leader>rr :call VimuxRunCommand("clear; ruby " . bufname("%"))<CR>
 
 " Run the current file with rspec
 map <Leader>rb :call VimuxRunCommand("clear; rspec " . bufname("%"))<CR>
@@ -490,3 +544,8 @@ map <Leader>rq :VimuxCloseRunner<CR>
 " Interrupt any command running in the runner pane
 map <Leader>rs :VimuxInterruptRunner<CR>
 
+"  ---------------------------------------------------------------------------
+"  Abbreviations
+"  ---------------------------------------------------------------------------
+abbr pd require 'pry-debugger'; binding.pry
+abbr pbb require 'pry-byebug'; binding.pry

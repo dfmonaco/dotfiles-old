@@ -1,7 +1,10 @@
 .rvmrc
 .gemset
-/bin/*
 .tmuxrc
 *sublime-project
 *sublime-workspace
 *.dump
+project_data/
+.ruby-version
+.ruby-gemset
+

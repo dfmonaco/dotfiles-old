@@ -22,4 +22,4 @@
 	lg1 = log --pretty=oneline --abbrev-commit --decorate --date=relative
 [core]
 	excludesfile = /home/diego/.gitignore_global
-	editor = subl --wait
+	editor = vim
