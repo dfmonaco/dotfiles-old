@@ -1,4 +1,5 @@
 .rvmrc
+.nvmrc
 .gemset
 .tmuxrc
 *sublime-project
@@ -7,4 +8,6 @@
 project_data/
 .ruby-version
 .ruby-gemset
-
+.autoenv.zsh
+node_modules/
+.env

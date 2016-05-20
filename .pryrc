@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'interactive_editor'
+# require 'interactive_editor'
 
 alias q exit
 

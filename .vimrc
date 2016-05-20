@@ -6,37 +6,36 @@ set nocompatible               " be iMproved
 
 filetype off                   " required by Vundle
 
-" Set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin()
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-
-Plugin 'bling/vim-airline'
-Plugin 'tpope/vim-commentary'
-" Plugin 'Shougo/unite.vim'
-" Plugin 'Shougo/vimproc.vim'
-Plugin 'benmills/vimux'
-Plugin 'jgdavey/vim-turbux'
-Plugin 'ervandew/supertab'
-Plugin 'kien/ctrlp.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'rking/ag.vim'
-Plugin 't9md/vim-ruby-xmpfilter'
-Plugin 'scrooloose/syntastic'
-Plugin 'chilicuil/vim-sml-coursera'
+Plug 'bling/vim-airline'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
+Plug 'benmills/vimux'
+Plug 'janko-m/vim-test'
+Plug 'ervandew/supertab'
+Plug 'kien/ctrlp.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'rking/ag.vim'
+Plug 't9md/vim-ruby-xmpfilter'
+Plug 'tpope/vim-endwise'
+Plug 'scrooloose/syntastic'
+Plug 'chilicuil/vim-sml-coursera'
+Plug 'fatih/vim-go'
+Plug 'Glench/Vim-Jinja2-Syntax'
+Plug 'nsf/gocode', {'rtp': 'vim/'}
+Plug 'kchmck/vim-coffee-script'
 
 
 " Syntax definitions
-Plugin 'sheerun/vim-polyglot'
+Plug 'sheerun/vim-polyglot'
 
 " Color schemes
-Plugin 'altercation/vim-colors-solarized'
+Plug 'altercation/vim-colors-solarized'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
+" Add plugins to &runtimepath
+call plug#end()
 
 " indent rules by filetype
 filetype plugin indent on    " required
@@ -156,10 +155,10 @@ set expandtab
 set formatoptions=n
 
 " Display unprintable characters
-set list!
+" set list!
 
 " set the characters to show tabs, whitespaces, and end of files
-set listchars=tab:▸\ ,trail:•,extends:»,precedes:«
+" set listchars=tab:▸\ ,trail:•,extends:»,precedes:«
 " set listchars=tab:>-,trail:·,eol:$
 
 " Case-insensitive searching.
@@ -380,7 +379,7 @@ map <leader>b :CtrlPBuffer<cr>
 
 " ignore following directories and files
 let g:ctrlp_custom_ignore = {
-      \ 'dir':  '\.git$\|log$\|tmp$\|bin$',
+      \ 'dir':  '\.git$\|Godeps$\|node_modules$\|log$\|tmp$\|bin$',
       \ 'file': '\.exe$\|\.so$\|\.dll$',
       \ }
 
@@ -505,13 +504,6 @@ endfunction
 
 " TESTING inside Vim!
 
-" turbux conf
-" let g:turbux_command_prefix = 'zeus'
-" let g:turbux_command_rspec  = 'rspec --drb'
-" let g:turbux_command_rspec  = 'zeus test'
-let g:turbux_command_rspec  = 'bin/rspec'
-" let g:turbux_command_cucumber = 'cucumber --drb'
-
 " vimux conf
 let g:VimuxOrientation = "h"
 let g:VimuxHeight = "40"
@@ -522,10 +514,6 @@ map <Leader>rr :call VimuxRunCommand("clear; ruby " . bufname("%"))<CR>
 " Run the current file with rspec
 map <Leader>rb :call VimuxRunCommand("clear; rspec " . bufname("%"))<CR>
 "
-" Run current cucumber feature
-map <Leader>rc :call VimuxRunCommand("clear; cucumber " . bufname("%"))<CR>
-" map <Leader>rc :call VimuxRunCommand("clear; cucumber -P --drb -f pretty " . bufname("%"))<CR>
-
 " Prompt for a command to run
 map <Leader>rp :VimuxPromptCommand<CR>
 
@@ -535,14 +523,19 @@ map <Leader>rl :VimuxRunLastCommand<CR>
 " Inspect runner pane
 map <Leader>ri :VimuxInspectRunner<CR>
 
-" Close all other tmux panes in current window
-map <Leader>rx :VimuxClosePanes<CR>
-
 " Close vim tmux runner opened by VimuxRunCommand
 map <Leader>rq :VimuxCloseRunner<CR>
 
 " Interrupt any command running in the runner pane
 map <Leader>rs :VimuxInterruptRunner<CR>
+
+" vim-test config
+"
+nmap <silent> <leader>tn :TestNearest<CR>
+nmap <silent> <leader>tf :TestFile<CR>
+nmap <silent> <leader>ts :TestSuite<CR>
+nmap <silent> <leader>tl :TestLast<CR>
+nmap <silent> <leader>tv :TestVisit<CR>
 
 "  ---------------------------------------------------------------------------
 "  Abbreviations

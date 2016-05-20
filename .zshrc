@@ -72,12 +72,10 @@ PATH=$PATH:$HOME/.rvm/bin
 # Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
+
 # ALIASES
 # rspec
 alias t='rspec --drb'
-
-# navigation
-alias go='cd /home/diego/stuff/code/'
 
 # bundler
 alias be='bundle exec'
@@ -147,6 +145,16 @@ alias alert='notify-send -i /usr/share/icons/gnome/32×32/apps/gnome-terminal.pn
 # GLOBAL ALIASES
 alias -g G='| grep --color'
 alias -g L='| less'
+
+# GVM
+[[ -s "/home/diego/.gvm/scripts/gvm" ]] && source "/home/diego/.gvm/scripts/gvm"
+
+# Zsh Autoenv 
+
+source  ~/.zsh-autoenv/autoenv.zsh
+
+export NVM_DIR="/home/diego/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # RVM
 

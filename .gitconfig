@@ -23,3 +23,5 @@
 [core]
 	excludesfile = /home/diego/.gitignore_global
 	editor = vim
+[push]
+	default = simple
