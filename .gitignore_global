@@ -11,3 +11,5 @@ project_data/
 .autoenv.zsh
 node_modules/
 .env
+.eslintrc.js
+

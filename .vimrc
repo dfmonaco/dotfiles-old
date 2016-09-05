@@ -26,13 +26,18 @@ Plug 'fatih/vim-go'
 Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'nsf/gocode', {'rtp': 'vim/'}
 Plug 'kchmck/vim-coffee-script'
+Plug 'gorodinskiy/vim-coloresque'
+Plug 'rstacruz/vim-hyperstyle'
+Plug 'scrooloose/nerdtree'
+Plug 'slim-template/vim-slim'
 
 
 " Syntax definitions
 Plug 'sheerun/vim-polyglot'
 
 " Color schemes
-Plug 'altercation/vim-colors-solarized'
+" Plug 'altercation/vim-colors-solarized'
+Plug 'morhetz/gruvbox'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -128,7 +133,8 @@ set relativenumber
 " set undofile
 
 " colors
-colorscheme solarized
+" set termguicolors
+colorscheme gruvbox
 set background=dark
 set t_Co=256
 
@@ -505,8 +511,8 @@ endfunction
 " TESTING inside Vim!
 
 " vimux conf
-let g:VimuxOrientation = "h"
-let g:VimuxHeight = "40"
+let g:VimuxOrientation = "v"
+let g:VimuxHeight = "50"
 
 " Run the current file with ruby
 map <Leader>rr :call VimuxRunCommand("clear; ruby " . bufname("%"))<CR>
@@ -531,6 +537,8 @@ map <Leader>rs :VimuxInterruptRunner<CR>
 
 " vim-test config
 "
+let test#strategy = "vimux"
+
 nmap <silent> <leader>tn :TestNearest<CR>
 nmap <silent> <leader>tf :TestFile<CR>
 nmap <silent> <leader>ts :TestSuite<CR>
@@ -542,3 +550,14 @@ nmap <silent> <leader>tv :TestVisit<CR>
 "  ---------------------------------------------------------------------------
 abbr pd require 'pry-debugger'; binding.pry
 abbr pbb require 'pry-byebug'; binding.pry
+
+"  ---------------------------------------------------------------------------
+"  File Types
+"  ---------------------------------------------------------------------------
+autocmd BufNewFile,BufRead *.slim set ft=slim
+
+"  ---------------------------------------------------------------------------
+"  Syntastic
+"  ---------------------------------------------------------------------------
+let g:syntastic_javascript_checkers = ['eslint']
+
